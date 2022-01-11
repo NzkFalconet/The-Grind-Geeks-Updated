@@ -1,0 +1,79 @@
+<%- include('partials/header') %>
+<%- include('partials/nav2') %>
+
+
+
+<% if(sign=="Answered") {%>
+  <% var query = foundUser.QuestionsAnswered; %>
+  <%} else if(sign=="Upvoted"){%>
+  <%  var query = foundUser.upvotedQuestion; %>
+  <%} else if(sign=="Asked"){%>
+  <% var query = foundUser.QuestionsAsked; %>
+  <% }%>
+
+<% if(query.length==0) {%>
+  <section class="text-center" style="padding: 30px 0;">
+    <p>No Question Found!</p>
+  </section>
+<%}%>
+ <%query.forEach((each)=>{ %>
+  <!-- <h1 style="font-size: 20px;"> <%=each.Body %></h1>
+  <p><%=sign%></p> -->
+
+
+  <section class="trending container-fluid singleQuestion list-styles" style="margin-bottom:10px;margin-top: 0px;">
+    <div class="trending-1 list-group-item">
+      <div class="votes">
+  <div class="mini-counts "><span title="0 votes"><%=each.upvote%></span></div>
+  <div class="vot">votes</div>
+  </div>
+  
+      <div class="status unanswered">
+  <div class="mini-counts"><span title="0 answers"><%=each.answers.length%></span></div>
+  <div class="vot">answers</div>
+  </div>
+  
+      <!-- <div class="views">
+  <div class="mini-counts"><span title="2 views">2</span></div>
+  <div>views</div>
+  </div> -->
+  
+  </div>
+    <div class="list-group pb-2 trending-2 list-group-item list-group-item-action list-group-item-info">
+    
+        <div class="d-flex w-100 justify-content-between">
+          <a class="mb-1 trending-question" href="/questions/<%=each._id%>" class="" aria-current="true"> <%=each.Body.substring(0,60)%>...</a>
+          <small>Asked On: <%= each.createdAt.toISOString().split("T")[0] %></small>
+        </div>
+        <!-- <a class="trending-question-ask" href="/targetUser/<%=each.askedby.id%>" style="display:block" class="mb-1 trending-name ">Asked By:<%= each.askedby.name %></a> -->
+        <small></small>
+  
+    </div>
+  </section>
+<%}) %>
+
+
+
+<script>
+  // JavaScript code
+  let x = document.getElementsByClassName('singleQuestion');
+function search_Question() {
+ let input = document.getElementById('searchbar').value
+ input=input.toLowerCase();
+ 
+ 
+ for (i = 0; i < x.length; i++) {
+   if (!x[i].innerText.toLowerCase().includes(input)) {
+     x[i].style.display="none";
+   }
+   else {
+     x[i].style.display=""				
+   }
+ }
+}
+
+
+</script>
+
+<%- include('partials/bottom-footer') %>
+<%- include('partials/footer') %>

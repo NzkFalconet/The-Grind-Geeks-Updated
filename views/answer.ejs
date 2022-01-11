@@ -1,0 +1,35 @@
+<%- include('partials/header') %>
+
+<%- include('partials/nav') %>
+<h1>ohice</h1>
+<h1>Question Asked By: <%= targetUser %></h1>
+<h2>Question:<%= Question %></h2>
+<p></p>
+<% if(Answer.length!=0){ %>
+    <p><%= Answer %></p>
+<%}else{%>
+    <p>No Answer</p>
+<%}%>
+
+<div class="Q-2 b container">
+    <div class="status-disc">
+     <p style="font-size: 0.88rem;"> Asked By:<a class="name" href="/targetUser/<%=question.askedby%>"><%= question.askedby %></button></a></p>
+      <p style="font-size: 0.88rem;">Asked: <%= question.createdAt %></p>
+      
+    
+     </div>
+     <div class="asked-qns" >
+      <p style="font-size: 16px;"><a style="color: #000;font-weight:800;" href="/questions/<%=question._id%>"> <%= question.Body %></a> </p>    
+      <% if(question.answers.length!=0){ %>
+        <p> Answers </p>  
+        <%}else{%>
+        <p style="font-size: 15px;color: grey;font-weight: normal;">No Answers 😔............... </p>  
+        <%}%>
+     
+       </div>
+     <div class="most-ans" >
+      <!-- <p style="color: #000;font-weight:300;"><%=question.__v %> </p> -->
+    </div>
+    </div>
+
+<p>AskedBy:<%= Asked %></p>

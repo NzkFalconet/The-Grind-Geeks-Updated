@@ -1,0 +1,240 @@
+<%- include('partials/header-2') %>
+<%- include('partials/nav') %>
+
+<!-- <main class="container-fluid top-header " id="hideMe" >
+   <div class="p-5 rounded">
+      <h1 style="font-size: 1.3rem;">Navbar example</h1>
+      <p style="font-size: 1rem;" class="lead">This example is a quick exercise to illustrate how the top-aligned navbar works. As you scroll, this navbar remains in its original position and moves with the rest of the page.</p>
+      <a class="btn btn-sm btn-primary" href="/main" role="button">Explore The Site  </a>
+   </div>
+</main> -->
+<div class="container-fluid ask-a" style="display: flex;padding: 20px 0; background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7));">
+   <h1 class="text-white">All Questions</h1>
+   <div style="flex:1" >
+      <a class="btn btn-sm  btn-primary" href="/ask" role="button">Ask A Question </a>
+   </div>
+</div>
+<!-- ----QNA DIV---------------- -->
+
+<% if (questions.length>0 && users.length>0) {%>
+
+
+
+<section id="QNA-Section" class="QNA pt-2 " style="background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);padding-bottom: 100px;">
+   <div class="container QNA-div QNA-div1"  style="background-color:#fff ;" >
+      <!-- <hr style="width: auto;">  -->
+      
+      <%  if(questions.length>0){ %>
+      <% questions.forEach(function(question){ %>
+       
+      <div class="p-3 rounded QNA-Inside singleQuestion " >
+         <div class="Q-1 a">
+            <a href="/targetUser/<%=question.askedby._id%>" class="image-anc">
+           
+               <%  if(question.askedby.img.contentType){ %>
+                  <img style="object-fit: contain; " src="data:uploads/<%=question.askedby.img.contentType%>;base64,
+                     <%=question.askedby.img.data.toString('base64')%>">
+                  <% } else { %>
+                  <img src="https://bootdey.com/img/Content/avatar/avatar7.png" title="" alt="">
+                  <% } %>
+            </a>
+            <div class="up-down">
+               <form action="/upvote/<%=question._id%>" method="get"  style="margin-bottom: px;height:32px;">
+                  <button class="btn btn-sm" type="submit" style="color: blue;"><i class="fas fa-sort-up" style="font-size: 16px;"></i></button>
+               </form>
+               <p style="height:0px"><%=question.upvote %></p>
+               <form action="/downvote/<%=question._id%>" method="GET" style="margin-top: 10px;height:32px;">
+                  <button class="btn btn-sm " type="submit" style="color: red;"><i class="fas fa-sort-down" style="font-size: 16px;"></i></button>
+               </form>
+            </div>
+         </div>
+         <div class="outer-div">
+            <div class="Q-2 b">
+               <div class="status-disc">
+                  <%if(!isAuthenticated){%>
+                
+                        
+                        <p style="font-size: 0.88rem;"> Asked By:<a class="name" href="/targetUser/<%=question.askedby.id%>"><%= question.askedby.name %></button></a></p>
+                      
+                     <%}else{%>
+                        <%if(question.askedby._id==id){ %>
+                           <p class="name" style="font-size: 0.88rem;"> Asked By:<a class="name" href="/user/<%=id%>"><%= question.askedby.name %></button></a></p>
+                           <%  }else{%>
+                           <p style="font-size: 0.88rem;"> Asked By:<a class="name" href="/targetUser/<%=question.askedby.id%>"><%= question.askedby.name %></button></a></p>
+                           <%}%>
+                     <%}%>
+                 
+                  <p style="font-size: 0.88rem;">Asked: <%= question.createdAt.toISOString().split("T")[0] %></p>
+               </div>
+               <div class="asked-qns" >
+                  <p class="qns-body" style="font-size: 21px;"><a style="color: #000;font-weight:700;" href="/questions/<%=question._id%>"> <%= question.Body %></a> </p>
+                  <% if(question.answers.length!=0){ %>
+                  <%   var max = 0; %>
+                  <%   var maxAnswer %>
+                  <%   question.answers.forEach((eachAnswer) => { %>
+                  <%    if (eachAnswer.upvote > max) { %>
+                  <%        max = eachAnswer.upvote; %>
+                  <%        maxAnswer = eachAnswer.answer; %>
+                  <%        } %>
+                  <%    }) %>
+                  <%      if (max === 0) { %>
+                  <%       maxAnswer= question.answers[0].answer  %>
+                  <%    } %>
+                  <p class="ans-body" style="font-size: 16px;color: #000;">
+                     <%= maxAnswer.substring(0,100)%> 
+                     <% if(maxAnswer.length>100) {%>
+                        <a style="font-size: 30px;text-decoration: none;" href="/questions/<%=question._id%>">... </a></p>
+
+                        <%    } %>
+
+                  <%}else{%> 
+                  <p style="font-size: 15px;color: grey;font-weight: normal;">No Answers 😔............... </p>
+                  <%}%>
+               </div>
+               <div class="most-ans" >
+                  <!-- <p style="color: #000;font-weight:300;"><%=question.__v %> </p> -->
+               </div>
+            </div>
+            <div class="Q-3 c" style="padding: 15px 0;" >
+
+               <div class="c1">
+                  <a class="btn btn-sm btn-primary"   href="/questions/<%=question._id%>" role="button"> <%= question.answers.length %> Answers</a>
+               </div>
+               <div class="c3">
+                  <a class="btn btn-sm btn-dark"  href="/questions/<%=question._id%>" role="button">Answer</a>
+               </div>
+               <div class="c2">
+                  <form action="/report/<%=question._id%>" method="get">
+                  <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  <i class="fas fa-flag"></i>
+                  </button>
+                   </form>  
+               </div>
+
+
+            </div>
+         </div>
+      </div>
+      <hr>
+      <% }) %>
+      <%   }%>
+   </div>
+   <div class="container QNA-div QNA-div2"  style="background-color:#fff ;   height: 142vh;" >
+      <div class="top-questions ">
+         <h1 style="display: block!important;margin:0!important;" class="text-center pt-3 top-head">Top Questions</h1><br>
+         <hr  style="width: 100%;display: block;margin:0!important;">
+         </div>
+         <%for(var i=0;i<6;++i) { %>
+           <section id="single-Section" class="trending container-fluid singleQuestion " style="margin-bottom:10px;margin-top: 10px;">
+        
+           <div class="list-group pb-2 trending-2 list-group-item list-group-item-action  " style="background-color: rgb(253,247,226);border: none;">
+           
+               <div class="d-flex w-100 justify-content-between">
+                 
+                 <a style="font-size: 13px;margin-right: 10px;color: var(--black-700)!important" class="mb-1 trending-question" href="/questions/<%=questions[i]._id%>" class="" aria-current="true">  <%=questions[i].Body.substring(0,60)%>...</a>
+                 <p style="font-size: 9px!important;color: gray;">Asked On: <%= questions[i].createdAt.toISOString().split("T")[0] %></p>
+         
+               </div>
+               <a  class="trending-question-ask" href="/targetUser/<%=questions[i].askedby.id%>" style="font-size: 10.5px!important; display:block" class="mb-1 trending-name ">Asked By:<%= questions[i].askedby.name %></a>
+               <small></small>
+         
+           </div>
+          
+         </section>
+         <hr  style="width: 100%;display: block;">
+         <%}%>
+         <p style="font-size: 12px;" class="text-center"><a href="/trending">View All</a> </p>
+   </div>
+   <div class="container QNA-div QNA-div2 QNA-div3"  style="background-color:#fff ;    min-height: 190vh;" >
+      <div class="top-questions ">
+         <h1 style="display: block!important;margin:0!important;" class="text-center pt-3 top-head">Top Contributors</h1><br>
+         <hr  style="width: 100%;display: block;margin:0!important;">
+         </div>
+         <% var totalCount=0 %>
+         <%users.forEach((user)=>{ %>
+            <% if(totalCount==6){ %>
+                 <% return%>
+           <% } %>
+
+         
+           <section id="single-Section" class="trending container-fluid singleQuestion " style="margin-bottom:10px;margin-top: 10px;">
+        
+           <div class="list-group pb-2 trending-2 list-group-item  " style="background-color: rgb(253,247,226);border: none;">
+           
+               <div class="d-flex w-100 justify-content-between img-div-spc">
+                  <div class="img-div-spc1">
+                     <%  if(user.img.contentType){ %>
+                        <a href="/targetUser/<%=user._id%>">
+                           <img  style="object-fit: contain;width:70px;height:70px;margin-right: 15px; " src="data:uploads/<%=user.img.contentType%>;base64,
+                           <%=user.img.data.toString('base64')%>">
+                        </a>
+                        
+                        <% } else { %>
+                           <a href="/targetUser/<%=user._id%>">
+                        <img style="width:70px;height:70px;margin-right: 15px;object-fit: cover;" src="https://bootdey.com/img/Content/avatar/avatar7.png" title="" alt="">
+                        </a>
+                        <% } %>
+
+                  </div>
+               
+                     <div class="img-div-spc2">
+                        <div>
+                           <a style="color:#fff;font-size: 14px;margin-right: 10px;" class="mb-1 trending-question" href="/targetUser/<%=user._id%>" class="" aria-current="true">  <%=user.name%></a>
+                        </div>
+                        <div style="display: flex;margin-top: 7px;">
+                         
+                           <% var contribute1 = user.QuestionsAnswered.length%>
+                           <% var contribute2 = user.QuestionsAsked.length %>
+                     
+                           
+                           <div class="text-start">
+                              <p style="font-size: 10.5px;color: rgb(243, 240, 240);">Question Asked</p>
+                              <p  class="trending-question-ask" href="/targetUser/<%=user._id%>" style="font-size: 13.5px!important; display:block;color: rgb(255, 244, 244);" class="mb-1 trending-name "><%=contribute2 %></p>
+                           </div>
+                           <div class="text-start">
+                              <p style="font-size: 10.5px;color: rgb(243, 240, 240);">Question Answered</p>
+                              <p  class="trending-question-ask" href="/targetUser/<%=user._id%>" style="font-size: 13.5px!important; display:block;color: rgb(255, 244, 244);" class="mb-1 trending-name "><%=contribute1 %></p>
+                           </div>
+                         
+                           <div class="text-start">
+                              <p style="font-size: 10.5px;color: rgb(243, 240, 240);">Total Contribute</p>
+                              <p  class="trending-question-ask" href="/targetUser/<%=user._id%>" style="font-size: 13.5px!important; display:block;color:  rgb(255, 244, 244);" class="mb-1 trending-name "><%=user.Contribute %></p>
+                           </div>
+                        </div>
+                       
+                      
+                     </div>
+                
+               </div>
+              
+             
+         
+           </div>
+          
+         </section>
+         <hr  style="width: 100%;display: block;">
+         <% totalCount++; %> 
+         <%})%>
+         <p style="font-size: 12px;" class="text-center"><a style="color: #fff;" href="/allUsers">View All</a> </p>
+   </div>
+
+</section>
+
+<% }%>
+
+
+
+
+<script>
+   setTimeout(function(){
+     if ($('#hideMe').length > 0) {
+       $('#hideMe').remove();
+     }
+   }, 5000)
+
+
+   
+</script>
+<!-- ----QNA DIV---------------- -->
+<%- include('partials/bottom-footer') %>
+<%- include('partials/footer') %>

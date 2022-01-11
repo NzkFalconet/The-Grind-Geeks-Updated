@@ -1,0 +1,113 @@
+<%- include('partials/header') %>
+<%- include('partials/nav') %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
+
+<style>
+body{
+    margin-top:20px;
+    background-color: #f0f2f5;
+}
+.dropdown-list-image {
+    position: relative;
+    height: 2.5rem;
+    width: 2.5rem;
+}
+.dropdown-list-image img {
+    height: 2.5rem;
+    width: 2.5rem;
+}
+.btn-light {
+    color: #2cdd9b;
+    background-color: #e5f7f0;
+    border-color: #d8f7eb;
+}
+</style>
+
+
+<div class="container " style="margin-bottom: 60px;" >
+    <div class="row">
+        <div class="col-lg-3 left my-photo">
+        
+            <div class="box mb-3 shadow-sm rounded bg-white profile-box text-center">
+                <div class="p-5">
+                    <!-- <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Responsive image" /> -->
+                    <%  if(User.img.contentType){ %>
+                        <img style="object-fit: cover;width: 100%;height: auto;" class="img-fluid" src="data:uploads/<%=User.img.contentType%>;base64,
+                           <%=User.img.data.toString('base64')%>">
+                        <% } else { %>
+                        <img style="width: 100%;height: auto;" src="https://bootdey.com/img/Content/avatar/avatar7.png" title="" alt="">
+                        <% } %>
+                </div>
+                <div class="p-3 border-top border-bottom">
+                    <h5 class="font-weight-bold text-dark mb-1 mt-0"><%=User.name%></h5>
+                    <p class="mb-0 text-muted" style="font-size: 12px;">Email:<%=User.email%></p>
+                </div>
+                <div class="p-3">
+                    <div class="d-flex align-items-top mb-2">
+                        <p class="mb-0 text-muted">Question Asked</p>
+                        <p class="font-weight-bold text-dark mb-0 mt-0 ml-auto"><%=User.QuestionsAsked.length %></p>
+                    </div>
+                      
+                    <div class="d-flex align-items-top mb-2">
+                        <p class="mb-0 text-muted">Question Upvoted</p>
+                        <p class="font-weight-bold text-dark mb-0 mt-0 ml-auto"><%=User.upvotedQuestion.length %></p>
+                    </div>
+                    <div class="d-flex align-items-top mb-2">
+                        <p class="mb-0 text-muted">Question Answered</p>
+                        <p class="font-weight-bold text-dark mb-0 mt-0 ml-auto"><%=User.QuestionsAnswered.length%></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="col-lg-9 right">
+            
+                <div class="box shadow-sm rounded bg-white mb-3">
+                    <div class="box-title border-bottom p-3">
+                        <h6 class="m-0">Recent</h6>
+                    </div>
+                    <% notifications.forEach((notification)=>{ %>
+                    <div class="box-body p-0 mt-1">
+                        <div class="p-3 d-flex align-items-center bg-light border-bottom osahan-post-header">
+                            <div class="dropdown-list-image mr-3">
+                                <a href="/targetUser/<%=notification.relatedTo._id%>" class="image-anc">
+           
+                                    <%  if(notification.relatedTo.img.contentType){ %>
+                                       <img  src="data:uploads/<%=notification.relatedTo.img.contentType%>;base64,
+                                       <%=notification.relatedTo.img.data.toString('base64')%>">
+                                       <% } else { %>
+                                       <img src="https://bootdey.com/img/Content/avatar/avatar7.png" title="" alt="">
+                                       <% } %>
+                                 </a>
+                            </div>
+                            <div class="font-weight-bold mr-3 left-time ">
+                                <div class="text-truncate"><a  href="/targetUser/<%=notification.relatedTo._id%>"> <%=notification.relatedTo.name%></a></div>
+                               
+                                <% if(notification.message=="Just Signup On The Grind Geeks") {%>
+                                    <div class="small small1"><%=notification.message%></div>
+                                <%}else if(notification.message=="Posted A New Question"){%>
+                                    <div class="small small1"><%=notification.message%>. <br><a  href="/questions/<%=notification.questionNotif._id%>"> <%= notification.questionNotif.Body.substring(0,30)%>...</a></div>
+
+                                    <%}%>
+                            </div>
+                            <span class="ml-auto mb-auto">
+                                <div class="btn-group">
+                                   
+                                    <div class="small time-small">Time: <%=notification.time.toISOString().split("T")[0]%></div>
+                                </div>
+                                <br />
+                                <div class="text-right text-muted pt-1"></div>
+                            </span>
+                        </div>
+                       
+                    </div>
+                    <% })%>
+                </div>
+           
+            
+           
+        </div>
+    </div>
+</div>
+<%- include('partials/bottom-footer2') %>
+<%- include('partials/footer') %>

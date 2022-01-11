@@ -1,0 +1,32 @@
+<%- include('partials/header-2') %>
+
+<%- include('partials/nav') %>
+
+<section id="universe">
+
+  <div class="container" style="padding-top: 20px;">
+    <h1 style="margin-bottom:30px">Ask a Public Question</h1> 
+    <form class="ask-form" action="/ask" method="POST">
+      
+        <div class="mb-3">
+  
+            <p class="ask-p">
+              Include all the information someone would need to understand your
+              question
+            </p>
+          </label>
+          <!-- <textarea rows="10" cols="80" name="question">Hello, World!</textarea> -->
+          <textarea class="form-control" rows="10" cols="80" name="question" required="true">Hello, World!</textarea>
+        </div>
+        <div class="col-12 ask-submit">
+          <button type="submit" class="btn btn-primary">Post My Question</button>
+        </div>
+      </form>
+  </div>
+  </section>
+
+
+ 
+
+
+<%- include('partials/footer') %> 

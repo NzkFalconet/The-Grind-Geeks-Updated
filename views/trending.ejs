@@ -1,0 +1,92 @@
+<%- include('partials/header') %>
+<%- include('partials/nav2') %>
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button> -->
+
+<!-- Modal
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/category" method="post">
+      <div class="modal-footer">
+        <button type="submit" name="sign" value="Answer" class="btn btn-secondary" data-bs-dismiss="modal">On Number Of Answers</button>
+        <button type="submit"  name="sign" value="Upvotes"class="btn btn-primary">On Upvotes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div> -->
+<div class="top-questions " >
+<h1 class="text-center pt-3 top-head">Top Questions</h1>
+<div style="flex:1;" >
+  <button type="button" class="btn btn-dark count-total1" style="margin:0px">
+    Total Questions: <span class="badge bg-secondary"> <%=Questions.length%></span>
+  </button>
+  
+</div>
+<div style="flex:1" >
+  <a class="btn btn-sm  btn-primary" href="/ask" role="button">Ask A Question </a>
+</div>
+</div>
+<% Questions.forEach((question)=>{ %>
+  <section class="trending container-fluid singleQuestion" style="margin-bottom:10px;margin-top: 10px;">
+  <div class="trending-1 list-group-item">
+    <div class="votes">
+<div class="mini-counts "><span title="0 votes"><%=question.upvote%></span></div>
+<div class="vot">votes</div>
+</div>
+
+    <div class="status unanswered">
+<div class="mini-counts"><span title="0 answers"><%=question.answers.length%></span></div>
+<div class="vot">answers</div>
+</div>
+
+    <!-- <div class="views">
+<div class="mini-counts"><span title="2 views">2</span></div>
+<div>views</div>
+</div> -->
+
+</div>
+  <div class="list-group pb-2 trending-2 list-group-item list-group-item-action list-group-item-info">
+  
+      <div class="d-flex w-100 justify-content-between">
+        <a class="mb-1 trending-question" href="/questions/<%=question._id%>" class="" aria-current="true"> <%=question.Body.substring(0,60)%>...</a>
+        <small>Asked On: <%= question.createdAt.toISOString().split("T")[0] %></small>
+      </div>
+      <a class="trending-question-ask" href="/targetUser/<%=question.askedby.id%>" style="display:block" class="mb-1 trending-name ">Asked By:<%= question.askedby.name %></a>
+      <small></small>
+
+  </div>
+</section>
+<%})%>
+
+<script>
+   // JavaScript code
+   let x = document.getElementsByClassName('singleQuestion');
+function search_Question() {
+	let input = document.getElementById('searchbar').value
+	input=input.toLowerCase();
+	
+	
+	for (i = 0; i < x.length; i++) {
+		if (!x[i].innerText.toLowerCase().includes(input)) {
+			x[i].style.display="none";
+		}
+		else {
+			x[i].style.display=""				
+		}
+	}
+}
+
+
+</script>
+<!-- <%- include('partials/bottom-footer2') %> -->
+<%- include('partials/footer') %>

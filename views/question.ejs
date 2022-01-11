@@ -1,0 +1,123 @@
+<%- include('partials/header') %>
+<%- include('partials/nav2') %>
+
+<!-- ----QNA DIV---------------- -->
+<section id="universal"  style="background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);padding-bottom: 100px;font-family: 'Open Sans', sans-serif;">
+   <section class="QNA pt-2 " >
+      <div class="container QNA-div"  style="background-color:#fff;margin-top:60px;" >
+         <!-- <hr style="width: auto;"> -->
+         <div class="p-3 rounded QNA-Inside " >
+            <div class="Q-1 a">
+               <a href="/targetUser/<%=Question.askedby._id%>" class="image-anc">
+                  <%  if(Question.askedby.img.contentType){ %>
+                     <img style="object-fit: contain; " src="data:uploads/<%=Question.askedby.img.contentType%>;base64,
+                        <%=Question.askedby.img.data.toString('base64')%>">
+                     <% } else { %>
+                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" title="" alt="">
+                     <% } %>
+               </a>
+            </div>
+            <div class="outer-div">
+               <div class="Q-2 b" >
+                  <div class="status-disc2">
+                     <p class="st1" style="font-size: 0.88rem;"> Asked By:<a class="name" href="/targetUser/<%=Question.askedby.id%>"><%=Question.askedby.name%></button></a></p>
+                     <p class="st2" style="font-size: 0.88rem;"><%=Question.createdAt.toISOString().split("T")[0]%></p>
+                     <p class="st3"> <a class="btn btn-sm btn-dark"  href="#ask" role="button">Answer This Question</a></p>
+                    
+                  </div>
+                  <div class="AllQuestion-div" >
+               
+                  <div class="asked-qns" style="flex-basis: 90%;">
+                     <p class="asked-qns-body" style="font-size: 22px;color: #000;font-weight: 700;"> <%=Question.Body%></p>
+                     <hr>
+                     <!-- -------------------------------------------------------- -->
+                     <% var count=0 %>
+                     <% if(Question.answers.length!=0){ %>
+                     <% Question.answers.forEach((answer)=>{ %>
+                     <div class="AllQuestion-div"  >
+                        <div class="up-down" style="flex-basis: 10%;text-align: center;">
+                  
+                           <form class="first-up" action="/answerUpvote/<%=answer._id%>/<%=Question._id%>" method="get"  style="margin-bottom: px;height:32px;">
+                        <button class="btn btn-sm" type="submit" style="color: blue;"> <i class="fas fa-sort-up" style="font-size: 16px;"></i><i class="fas fa-thumbs-up"></i></button>
+                       
+                         </form>
+                        <p style="height:0px; font-size:16px;"><%=answer.upvote %></p>
+         
+                       <form  class="first-down" action="/answerDownvote/<%=answer._id%>/<%=Question._id%>" method="GET" style="margin-top: 10px;height:32px;">
+                        <button class="btn btn-sm " type="submit" style="color: red;">                        <i class="fas fa-sort-down" style="font-size: 16px;"></i><i class="fas fa-thumbs-down"></i></button>
+
+                         </form>
+                      
+                        </div> 
+                        <div class="answer-div"  style="flex-basis:90%;">
+                           <p class="text-wrap" style="word-break:break-all;font-size: 16px;color: #000;"><%=answer.answer%> </p>
+                          <% count++; %>
+                        </div>
+                        <div class="asked-div">
+                            <p style="font-size: 14px;">Answered By: <a href="/targetUser/<%=answer.answeredBy._id%>"> <%=answer.answeredBy.name%></a> </p>
+                         </div>
+                     </div>
+                     %>
+                     <!-- -------------------------------------------------------- -->
+                     <hr style="width:100%;">
+                     <% }) %>
+                     <%}else{%>
+                     <p style="font-size: 15px;color: grey;font-weight: normal;">No Answers 😔............... </p>
+                     <%}%>
+                  </div>
+                  </div>
+               </div>
+               <div class="Q-3b c">
+                  <div class="c1 "  style="flex-basis: 50%;">
+                     <a class="btn btn-sm btn-primary" href="#" role="button"><%= count++ %> Answers</a>
+                  </div>
+                  <div class="c3" style="display:none;flex-basis: 50%;">
+                     <a class="btn btn-sm  btn-primary" href="#" role="button">Y Views</a>
+                  </div>
+                  <div class="c2" style="flex-basis: 50%;">
+                 
+                     <!-- <a class="btn btn-sm  btn-primary" href="#" role="button"></a> -->
+                     <!-- Button trigger modal -->
+                     <form action="/report/<%=Question._id%>" method="get">
+                     <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                     <i class="fas fa-flag"></i>
+                     </button>
+                      </form>  
+                     <!-- Modal -->
+                  
+                   
+                  </div>
+   
+               </div>
+            </div>
+         </div>
+         <hr>
+      </div>
+   </section>
+   <section id="ask" style="text-align: center;">
+      <div class="container" style="margin-top: 106px;">
+         <h1 style="margin-bottom:30px;color: #fff;">Your Answer</h1>
+         <form class="ask-form" action="/answer" method="post">
+            <div class="mb-3">
+               <p class="ask-p" >
+                  Include all the information someone would need to understand your
+                  Answer
+               </p>
+               </label>
+               <!-- <textarea class="form-control" rows="10" cols="80" name="yourAnswer" required="true"></textarea>
+            </div>
+            <div class="col-12 ask-submit">
+               <button type="submit" class="btn btn-primary">Post My Answer</button>
+            </div> -->
+            <form action="/answer" method="post">
+               <textarea class="form-control" name="yourAnswer"  cols="30" rows="10" required></textarea>
+               <button style="margin-top:30px" class="btn btn-primary " type="submit">Post My Answer</button>
+            </form>
+         </form>
+      </div>
+   </section>
+</section>
+
+
+<%- include('partials/bottom-footer2') %>
+<%- include('partials/footer') %>
