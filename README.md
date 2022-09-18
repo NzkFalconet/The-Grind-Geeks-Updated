@@ -1,4 +1,4 @@
-# Minor-Real
+# The-Grind-Geeks
 We Provided A Plateform To The Developers All
 Over The World To Ask Their Questions And To
 Provide Their Own Knowldege By Answering The
